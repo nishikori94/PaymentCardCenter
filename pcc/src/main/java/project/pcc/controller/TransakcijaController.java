@@ -1,5 +1,6 @@
 package project.pcc.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,20 +14,21 @@ import project.pcc.model.Transakcija;
 @RequestMapping("/transakcija")
 public class TransakcijaController {
 
+	@Autowired
+	RestTemplate restTemplate;
+	
 	@PostMapping("/proslediZahtev")
-	public void proslediZahtev(@RequestBody Transakcija transakcija) {
+	public String proslediZahtev(@RequestBody Transakcija transakcija) {
 		System.out.println("[PCC] PROSLEDIZAHTEV USAO");
-		final String putanja = "http://localhost:" + transakcija.getPan().substring(0, 4) + "/placanje/proveriZahtev";
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.postForObject(putanja, transakcija, Void.class);
+		final String putanja = "https://localhost:" + transakcija.getPan().substring(0, 4) + "/placanje/proveriZahtev";
+		return restTemplate.postForObject(putanja, transakcija, String.class);
 	}
 
 	@PostMapping("/proslediOdgovor")
-	public void proslediOdgovor(@RequestBody RezultatTransakcije rezultatTransakcije) {
+	public String proslediOdgovor(@RequestBody RezultatTransakcije rezultatTransakcije) {
 		System.out.println("[PCC] PROSLEDI ODGOVOR USAO");
-		final String putanja = "http://localhost:" + rezultatTransakcije.getAcquirerSwiftCode()+ "/placanje/obradiIshodTransakcije";
-		RestTemplate restTemplate = new RestTemplate();
-		restTemplate.postForObject(putanja, rezultatTransakcije, Void.class);
+		final String putanja = "https://localhost:" + rezultatTransakcije.getAcquirerSwiftCode()+ "/placanje/obradiIshodTransakcije";
+		return restTemplate.postForObject(putanja, rezultatTransakcije, String.class);
 	}
 
 }
