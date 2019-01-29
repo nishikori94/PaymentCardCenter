@@ -27,7 +27,6 @@ public class Casopis {
 
 	public Casopis() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Casopis(String merchantId, String merchantPassword, Racun racun) {

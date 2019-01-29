@@ -19,14 +19,14 @@ public class TransakcijaController {
 	
 	@PostMapping("/proslediZahtev")
 	public String proslediZahtev(@RequestBody Transakcija transakcija) {
-		System.out.println("[PCC] PROSLEDIZAHTEV USAO");
+		System.out.println("[PCC] PROSLEDI ZAHTEV");
 		final String putanja = "https://localhost:" + transakcija.getPan().substring(0, 4) + "/placanje/proveriZahtev";
 		return restTemplate.postForObject(putanja, transakcija, String.class);
 	}
 
 	@PostMapping("/proslediOdgovor")
 	public String proslediOdgovor(@RequestBody RezultatTransakcije rezultatTransakcije) {
-		System.out.println("[PCC] PROSLEDI ODGOVOR USAO");
+		System.out.println("[PCC] PROSLEDI ODGOVOR");
 		final String putanja = "https://localhost:" + rezultatTransakcije.getAcquirerSwiftCode()+ "/placanje/obradiIshodTransakcije";
 		return restTemplate.postForObject(putanja, rezultatTransakcije, String.class);
 	}
